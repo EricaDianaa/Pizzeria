@@ -1,0 +1,29 @@
+﻿@using w16_1.Models
+@{
+    ViewBag.Title = "SelectProdotti";
+}
+
+<h2>SelectProdotti</h2>
+<div class="container">
+    <div class="row">
+
+        @foreach (Pizze p in Model)
+        {
+            <div class="col">
+                <div class="card">
+                    <img src="~/Content/Img/@p.Foto" class="card-img-top" alt="...">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@p.Nome</h5>
+                        <p class="card-text"><strong>Ingredienti: </strong> @p.Ingredienti</p>
+                        <p class="card-text"><strong>Tempo di consegna: </strong> @p.TempoConsegna</p>
+                        <p class="card-text">@string.Format("{0:C}", @p.Prezzo)   </p>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="DettagliPizza/?Id=@p.IdPizza" class="btn btn-primary mx-auto">Dettagli</a>
+                        }
+                        </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
