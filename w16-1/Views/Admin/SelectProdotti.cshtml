@@ -2,28 +2,40 @@
 @{
     ViewBag.Title = "SelectProdotti";
 }
+<link href="~/Content/StyleSheet1.css" rel="stylesheet" />
+<body>
 
-<h2>SelectProdotti</h2>
-<div class="container">
-    <div class="row">
+    @if (User.IsInRole("Admin"))
+    {
+        <a href="/Admin/CreateProdotti" class="btn btn-warning mx-auto my-3">Aggiungi prodotto</a>
+    }
+    <div class="container">
+        <div class="bg-dark text-white border border-white border-3 mb-3 rounded-3 ">
+            <h1 class="text-center text-primary">Menù</h1>
+            <h3 class="text-center text-primary">LE NOSTRE PIZZE</h3>
+        </div>
+        <div class="row bg-dark p-3 m-1 border border-white">
 
-        @foreach (Pizze p in Model)
-        {
-            <div class="col">
-                <div class="card">
-                    <img src="~/Content/Img/@p.Foto" class="card-img-top" alt="...">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">@p.Nome</h5>
-                        <p class="card-text"><strong>Ingredienti: </strong> @p.Ingredienti</p>
-                        <p class="card-text"><strong>Tempo di consegna: </strong> @p.TempoConsegna</p>
-                        <p class="card-text">@string.Format("{0:C}", @p.Prezzo)   </p>
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a href="DettagliPizza/?Id=@p.IdPizza" class="btn btn-primary mx-auto">Dettagli</a>
-                        }
+            @foreach (Pizze p in Model)
+            {
+                <div class="col-12 col-6 col-md-4 col-xl-3 mt-3">
+                    <div class="card">
+                        <img src="~/Content/Img/@p.Foto" class="card-img-top" alt="...">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-primary">@p.Nome</h5>
+                            <p class="card-text"><strong>Ingredienti: </strong> @p.Ingredienti</p>
+                            <p class="card-text"><strong>Tempo di consegna: </strong> @p.TempoConsegna</p>
+                            <p class="card-text">@string.Format("{0:C}", @p.Prezzo)   </p>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a href="/Admin/EditPizza/?Id=@p.IdPizza" class="btn btn-warning mx-auto">Modifica</a>
+                                <a href="/Admin/DeletePizza/?Id=@p.IdPizza" class="btn btn-danger mx-auto">Elimina</a>
+                            }
+                            <a href="/Home/Dettagli/?Id=@p.IdPizza" class="btn btn-primary mx-auto">Dettagli</a>
                         </div>
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-</div>
+</body>

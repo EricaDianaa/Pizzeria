@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Query";
+}
+
+<h2>Query</h2>
+
+<button id="Carica1" class="btn btn-primary mt-3"> Totali consegne</button>
+<div class="container">
+
+    <div class="row" id="List1">
+
+    </div>
+</div>
+
+<input type="text" name="name" value="" id="Input" class="form-control mt-3" />
+<button id="Cerca">Cerca</button>
+
+<div class="container">
+
+    <div class="row" id="List">
+
+    </div>
+
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //Ordini evasi
+            $("#Carica1").click(function () {
+                $("#List1").empty().slideToggle();
+                $.ajax({
+                    method: "Get",
+                    url: "TotOrdinIEvasi",
+                    success: function (list) {
+                        console.log(list)
+                        var Tot = "<div class='col border der-dark bg-white mt-3 rounded-3 w-25'><p><strong>Numero totale ordini evasi:</strong> " + list + "</p> </div> "
+                        $("#List1").append(Tot);
+
+
+                    }
+                });
+            })
+
+            //Totale incassatto poer giornata
+            $("#Cerca").click(function () {
+                var valore = $("#Input").val()
+                $.ajax({
+                    method: "POST",
+                    url: "TotIncassoGiornata",
+                    data: { DataConsegna: valore },
+                    success: function (data) {
+                        console.log(data)
+                    
+                            var licurrent = "<p class='bg-white'>Totale incassato il " + valore + " : " + data + "</p>";
+                            $("#List").append(licurrent);
+ 
+                    }
+                })
+
+            })
+
+
+
+
+        })
+    </script>
+}

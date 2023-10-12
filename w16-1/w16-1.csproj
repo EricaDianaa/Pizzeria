@@ -165,12 +165,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Aggiunte.cs" />
+    <Compile Include="Migrations\202310101417305_InitialDB.cs" />
+    <Compile Include="Migrations\202310101417305_InitialDB.designer.cs">
+      <DependentUpon>202310101417305_InitialDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Clienti.cs" />
-    <Compile Include="Models\Model1.cs" />
+    <Compile Include="Models\DB.cs" />
+    <Compile Include="Models\ModelDbContext.cs" />
     <Compile Include="Models\Ordini.cs" />
     <Compile Include="Models\Pizze.cs" />
     <Compile Include="Models\PizzeScelte.cs" />
+    <Compile Include="Models\Prodotto.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Utenti.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -193,6 +199,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\StyleSheet1.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -249,6 +256,15 @@
     <Content Include="Views\Admin\SelectProdotti.cshtml" />
     <Content Include="Views\Admin\DettagliPizza.cshtml" />
     <Content Include="Views\Admin\EditPizza.cshtml" />
+    <Content Include="Views\Home\Dettagli.cshtml" />
+    <Content Include="Views\Home\AggiungiOrdine.cshtml" />
+    <Content Include="Views\Home\SelectCliente.cshtml" />
+    <Content Include="Views\Home\EditCliente.cshtml" />
+    <Content Include="Views\Home\Cart.cshtml" />
+    <Content Include="Views\Home\Ordini.cshtml" />
+    <Content Include="Views\Admin\Query.cshtml" />
+    <Content Include="Views\Admin\SelectOrdini.cshtml" />
+    <Content Include="Views\Admin\EditOrdine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -280,6 +296,11 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202310101417305_InitialDB.resx">
+      <DependentUpon>202310101417305_InitialDB.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

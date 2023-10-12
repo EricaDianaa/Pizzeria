@@ -18,9 +18,7 @@ namespace w16_1.Models
         [StringLength(50)]
         public string Password { get; set; }
 
-        [StringLength(10)]
+        [StringLength(50)]
         public string Ruolo { get; set; } = "User";
-
-        //public static List<Utenti> ListUtenti = new List<Utenti>();
     }
 }

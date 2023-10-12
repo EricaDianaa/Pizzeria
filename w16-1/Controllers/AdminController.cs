@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -11,8 +12,9 @@ namespace w16_1.Controllers
 {     [Authorize(Roles ="Admin")]
     public class AdminController : Controller
     {
-        private Model1 db = new Model1();
+        private ModelDbContext db = new ModelDbContext();
    
+
         // GET: Admin
         public ActionResult Index()
         {
@@ -36,36 +38,81 @@ namespace w16_1.Controllers
             p.Foto = Foto.FileName;
             Pizze ordini = db.Pizze.Add(p);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
 
         }
-
+      
         //Edit
         public ActionResult EditPizza(int id)
         {
+
             Pizze p = db.Pizze.Find(id);
+            Session["IdPizz"] = p.IdPizza;
             return View(p);
         }
         [HttpPost]
-        public ActionResult EditPizza(Pizze p)
+        public ActionResult EditPizza(Pizze p, HttpPostedFileBase Foto)
         {
             if (ModelState.IsValid)
             {
+                if (Foto.ContentLength > 0)
+                {
+                    string nameFile = Foto.FileName;
+                    string path = Path.Combine(Server.MapPath("~/Content/Img"), nameFile);
+                    Foto.SaveAs(path);
+                }
+                p.Foto = Foto.FileName;
+                p.IdPizza = (int)Session["IdPizz"];
                 db.Entry(p).State=EntityState.Modified;
+                
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
             return View();
+        }
+
+        public ActionResult EditOrdine(int id)
+        {
+
+            Ordini o = db.Ordini.Find(id);
+            if (o == null)
+            {
+                return HttpNotFound();
+            }
+            Session["IdOrdine"] = id;
+            Session["IdCl"] = o.IdClienti;
+            return View(o);
+        }
+        [HttpPost]
+        public ActionResult EditOrdine(Ordini o)
+        {
+            
+                o.IdClienti =(int)Session["IdCl"];
+                o.IdOrdine = (int)Session["Idordine"];
+                db.Entry(o).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("SelectOrdini", "Admin");
+
         }
 
         //Delete
         public ActionResult DeletePizza(int id)
         {
+            DB.EliminaPizza();
             Pizze p = db.Pizze.Find(id);
             db.Pizze.Remove(p);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
+        public ActionResult DeleteOrdine(int id)
+        {
+            DB.Elimina();
+            Ordini p = db.Ordini.Find(id);
+            db.Ordini.Remove(p);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
 
         //Select
         public ActionResult DettagliPizza(int Id)
@@ -80,9 +127,43 @@ namespace w16_1.Controllers
         [AllowAnonymous]
         public ActionResult SelectProdotti()
         {
-            return View(db.Pizze.ToList());
+            if(User.IsInRole("Admin"))
+               {
+                return View(db.Pizze.ToList());
+            }
+             else if (User.IsInRole("User"))
+            {
+                return View(db.Pizze.ToList());
+            }
+            return RedirectToAction("Login","Home");
+        }
+        public ActionResult SelectOrdini()
+        {
+           
+                return View(db.Ordini.ToList());
+            
+
         }
 
+        //Query
+        public ActionResult Query()
+        {
+
+            return View();
+        }
+        public JsonResult TotOrdinIEvasi()
+        {
+            var totale = db.Ordini.Count(m => m.Evaso == true);
+            return Json(totale, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult TotIncassoGiornata(DateTime DataConsegna)
+        {
+         var Ordini=db.Ordini.Where(m => m.DataConsegna == DataConsegna).ToList();
+         var Pizze=   db.Pizze.ToList();
+            DB.ListIncasso.Clear();
+            DB.CercaPrenotazione(DataConsegna);
+            return Json(DB.Totale, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Security;
 
@@ -39,12 +38,12 @@ namespace w16_1.Models
 
         public override string[] GetRolesForUser(string username)
         {
-            Model1 model1 = new Model1();
-            Utenti U = model1.Utenti.Where(x=>x.Username==username).FirstOrDefault();
-            
+            ModelDbContext db = new ModelDbContext();
+            Utenti U = db.Utenti.Where(x => x.Username == username).FirstOrDefault();
+
             List<string> roles = new List<string>();
             string ruolo = U.Ruolo;
-             roles.Add(ruolo);
+            roles.Add(ruolo);
             return roles.ToArray();
         }
 

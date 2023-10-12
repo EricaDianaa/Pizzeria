@@ -12,7 +12,6 @@ namespace w16_1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Pizze()
         {
-            Aggiunte = new HashSet<Aggiunte>();
             PizzeScelte = new HashSet<PizzeScelte>();
         }
 
@@ -33,9 +32,11 @@ namespace w16_1.Models
         public string Ingredienti { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Aggiunte> Aggiunte { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PizzeScelte> PizzeScelte { get; set; }
+
+
+       public static List<Pizze> ListPizze = new List<Pizze>();
+
+        public static List<int> ListQuantità = new List<int>();
     }
 }
