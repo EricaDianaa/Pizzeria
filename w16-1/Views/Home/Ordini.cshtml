@@ -5,27 +5,29 @@
 
 }
 
-<h2 class="text-center bg-dark  text-primary">Riepilogo Ordine</h2>
+
 
 <div class="bg-white border border-dark border-3">
     @if (Session["OrdineEfettuato"] != null)
     {
+        <h2 class="text-center bg-dark  text-primary">Riepilogo Ordine</h2>
         <h3>Le tue pizze</h3> <br />
         foreach (w16_1.Models.DB p in Model)
-        { 
+        {
             <strong> @p.Nome</strong>
-          <ul>
-              <li> <strong>Prezzo: </strong>@string.Format("{0:C}", @p.Prezzo)</li>
-              <li> <strong>Quantità: </strong> @p.Quantità</li>
-              <li> <strong>Ingredienti: </strong>@p.Ingredienti</li>
-        </ul>
+            <ul>
+                <li> <strong>Prezzo: </strong>@string.Format("{0:C}", @p.Prezzo)</li>
+                <li> <strong>Quantità: </strong> @p.Quantità</li>
+                <li> <strong>Ingredienti: </strong>@p.Ingredienti</li>
+            </ul>
+        }
+        <p><strong>Totale ordine: </strong>@string.Format("{0:C}", @ViewBag.totale) </p>
     }
-<p><strong>Totale ordine: </strong>@string.Format("{0:C}", @ViewBag.totale) </p>
-}
-else
-{
-    <p>Nessun ordine effettuato</p>
-}
+    else
+    {
+<h2 class="text-center bg-dark  text-primary">Nessun ordine effettuato</h2>
+
+    }
 
 
 

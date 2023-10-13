@@ -3,13 +3,13 @@
     ViewBag.Title = "EditPizza";
 }
 
-<h2>EditPizza</h2>
+<h2 class="border border-white text-center text-primary p-3 bg-dark mx-auto w-50">Aggiungi prodotto</h2>
 
 @using (Html.BeginForm("EditPizza", "Admin", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal d-flex p-2 justify-content-center  bg-dark text-white align-items-center flex-column rounded-3">
+    <div class="form-horizontal d-flex p-2 justify-content-center mx-auto w-50  bg-dark text-white align-items-center flex-column rounded-3">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="">
@@ -52,7 +52,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-info" />
+                <input type="submit" value="Aggiungi" class="btn btn-primary" />
             </div>
         </div>
     </div>

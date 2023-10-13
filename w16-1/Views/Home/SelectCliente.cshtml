@@ -3,17 +3,18 @@
     ViewBag.Title = "SelectCliente";
 }
 
-<h2>Le tue informazioni personali</h2>
-<strong>Nome</strong>
-<p>@Html.DisplayFor(model => model.Nome)</p>
-<strong>Cognome</strong>
-<p>@Html.DisplayFor(model => model.Cognome)</p>
-<strong>Indirizzo di consegna</strong>
-<p>@Html.DisplayFor(model => model.Indirizzo)</p>
-<strong>IdCliente</strong>
-<p>@Html.DisplayFor(model => model.IdCliente)</p>
-<a href="/Home/EditCliente/?id=@Html.DisplayFor(model => model.IdCliente)">Modifica credenziali</a>
-
+<div class="bg-dark text-white rounded-3 text-center border border-white mx-auto w-50">
+    <h2 class="text-primary">Le tue informazioni personali</h2>
+    <strong>Nome</strong>
+    <p>@Html.DisplayFor(model => model.Nome)</p>
+    <strong>Cognome</strong>
+    <p>@Html.DisplayFor(model => model.Cognome)</p>
+    <strong>Indirizzo di consegna</strong>
+    <p>@Html.DisplayFor(model => model.Indirizzo)</p>
+    <strong>IdCliente</strong>
+    <p>@Html.DisplayFor(model => model.IdCliente)</p>
+    <a href="/Home/EditCliente/?id=@Html.DisplayFor(model => model.IdCliente)" class="btn mb-2 btn-primary">Modifica credenziali</a>
+</div>
 
 
 

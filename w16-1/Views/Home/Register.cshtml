@@ -3,16 +3,16 @@
     ViewBag.Title = "Register";
 }
 
-<h2>Register</h2>
+<h2 class="bg-dark border border-white p-3 mx-auto w-50  text-center text-primary">Register</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal bg-primary d-flex p-2 justify-content-center border border-2 align-items-center flex-column rounded-3">
+    <div class="form-horizontal bg-dark text-white mx-auto w-50 d-flex p-2 justify-content-center border border-2 align-items-center flex-column rounded-3">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="d-flex mb-3">
+    <div class=" mb-3">
         <div class="form-group">
             @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "" })
             <div class="col-md-10">
@@ -41,7 +41,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-info" />
+                <input type="submit" value="Register" class="btn btn-info" />
             </div>
         </div>
     </div>

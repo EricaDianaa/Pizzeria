@@ -3,26 +3,29 @@
     ViewBag.Title = "Query";
 }
 
-<h2>Query</h2>
 
-<button id="Carica1" class="btn btn-primary mt-3"> Totali consegne</button>
+
+
 <div class="container">
-
     <div class="row" id="List1">
 
     </div>
 </div>
-
-<input type="text" name="name" value="" id="Input" class="form-control mt-3" />
-<button id="Cerca">Cerca</button>
-
-<div class="container">
-
-    <div class="row" id="List">
-
+<div class="text-primary bg-dark mt-4 ">
+    <h2 class="text-center">Totale incasso</h2>
+    <h6 class="text-center mx-auto">Inserisci data</h6>
+    <div class="d-flex align-items-center justify-content-center mb-3">
+        <input type="text" name="name" value="" id="Input" class="mb-3 form-control mt-3" />
+        <button id="Cerca" class="btn btn-primary mt-3 ms-2 mb-3 ">Cerca</button>
     </div>
 
+    <div class="container">
+        <div class="row" id="List">
+
+        </div>
+    </div>
 </div>
+
 
 
 @section scripts{
@@ -30,19 +33,19 @@
         $(document).ready(function () {
 
             //Ordini evasi
-            $("#Carica1").click(function () {
-                $("#List1").empty().slideToggle();
+           
+               /* $("#List1").empty()*/;
                 $.ajax({
                     method: "Get",
                     url: "TotOrdinIEvasi",
                     success: function (list) {
                         console.log(list)
-                        var Tot = "<div class='col border der-dark bg-white mt-3 rounded-3 w-25'><p><strong>Numero totale ordini evasi:</strong> " + list + "</p> </div> "
+                        var Tot = "<div class='col text-center text-white border border-white bg-dark mt-3 rounded-3 w-25'><h4 ><strong class='text-primary'>Numero totale ordini evasi:</strong> " + list + "</h4> </div> "
                         $("#List1").append(Tot);
 
 
                     }
-                });
+             
             })
 
             //Totale incassatto poer giornata
@@ -55,7 +58,7 @@
                     success: function (data) {
                         console.log(data)
                     
-                            var licurrent = "<p class='bg-white'>Totale incassato il " + valore + " : " + data + "</p>";
+                        var licurrent = "<h5 class='bg-dark text-center text-white border border-white'>Totale incassato il " + valore + " : " + data + " €</h5>";
                             $("#List").append(licurrent);
  
                     }

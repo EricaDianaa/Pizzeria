@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -75,6 +76,8 @@ namespace w16_1.Controllers
 
             Clienti cliente = db.Clienti.Add(c);
             Session["Cliente"] = cliente.Nome;
+            Session["Cognome"] = cliente.Cognome;
+            Session["Indirizzo"] = cliente.Indirizzo;
             Session["IdCliente"] = cliente.IdCliente;
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -89,7 +92,13 @@ namespace w16_1.Controllers
         [HttpPost]
         public ActionResult CreateOrdine([Bind(Include = "IdOrdine, Allergie,IdCliente,Evaso,DataConsegna,NoteAggiunzione")]Ordini o)
         {
-            Ordini ordini = new Ordini();
+            if (Session["Cliente"] == null)
+            {
+                return RedirectToAction("CreateCliente", "Home");
+            }
+            else
+            {
+  Ordini ordini = new Ordini();
             List<Prodotto> prodotto = new List<Prodotto>();
             prodotto = (List<Prodotto>)Session["Carello"];
             Session["Cart1"] = Session["Carello"];
@@ -105,6 +114,7 @@ namespace w16_1.Controllers
             clienti.Nome = (string)Session["Cliente"];
 
             Clienti c = db.Clienti.FirstOrDefault(m => m.Nome == clienti.Nome);
+           
             o.IdClienti = c.IdCliente;
             Session["IdOrdine"] = o.IdOrdine;
             o.Evaso = false;
@@ -117,12 +127,15 @@ namespace w16_1.Controllers
 
             //  Prodotto.ListPizze.Clear();
             return RedirectToAction("Ordini");
+            }
+          
 
         }
-         public ActionResult AggiungiOrdine(int quantità, int idPizza)
+        public ActionResult AggiungiOrdine(int quantità, int idPizza)
         {
             
             Pizze pizze = db.Pizze.FirstOrDefault(m => m.IdPizza == idPizza);
+           
             Prodotto prod =new Prodotto();
             prod.IdPizza=idPizza;
             prod.Quantità = quantità;
@@ -151,6 +164,8 @@ namespace w16_1.Controllers
 
             return View();
         }
+       
+        //Carello
         public ActionResult Cart()
         {
             List<Prodotto> prodotto = new List<Prodotto>();
@@ -176,15 +191,34 @@ namespace w16_1.Controllers
            
             return View(prodotto);
         }
+
+        public ActionResult CartRemove()
+        {
+            return View();
+        }
+        [HttpPost]
         public ActionResult CartRemove(Prodotto p)
         {
+
             List<Prodotto> prodotto = new List<Prodotto>();
             prodotto = (List<Prodotto>)Session["Carello"];
-            prodotto.Remove(p);
-           
-            return View(prodotto);
-        }
+            string id =Request.QueryString["Id"];
+            
+            p.IdPizza = Convert.ToInt16(id);
+            prodotto.Remove(prodotto.FirstOrDefault(m=>m.IdPizza==p.IdPizza));
+        
 
+            Session["Carello"]=prodotto;
+
+            return RedirectToAction("Cart", "Home");
+        }
+        public ActionResult CartRemoveAll(Prodotto p)
+        {
+            DB.ListIncasso.Clear();
+            Session["Carello"] = null;
+
+            return RedirectToAction("Cart", "Home");
+        }
 
 
         public ActionResult Dettagli(int Id)
@@ -197,16 +231,27 @@ namespace w16_1.Controllers
             return View(p);
 
         }
- 
-        //
-
         public ActionResult SelectCliente()
         {
+            if (Session["Cliente"] != null&& Session["Modifica"]==null)
+            {
             Clienti clienti = new Clienti();
             clienti.Nome =(string)Session["Cliente"];
+            clienti.Cognome = (string)Session["Cognome"];
+            clienti.Indirizzo=(string)Session["Indirizzo"];
 
-            Clienti c = db.Clienti.FirstOrDefault(m=>m.Nome== clienti.Nome);
-            return View(c);
+            Clienti c = db.Clienti.FirstOrDefault(m=>m.Nome==clienti.Nome  && m.Cognome == clienti.Cognome && m.Indirizzo == clienti.Indirizzo);
+             return View(c);
+            }
+            else
+            {
+                
+                int id = (int)Session["IdClien"];
+                Clienti c = db.Clienti.Find(id);
+                Session["Cliente"] = c.Nome;
+                return View(c);
+            }
+         
 
         }
 
@@ -220,11 +265,11 @@ namespace w16_1.Controllers
             {
           
                 if(Session["OrdineEfettuato"]!=null)
-                { 
+                {  DB.ListIncasso.Clear();
                     Clienti c = db.Clienti.FirstOrDefault(m => m.Nome == clienti.Nome);
                  Ordini o = db.Ordini.FirstOrDefault(m => m.IdClienti == c.IdCliente);
                 Session["IdOrdine"] = o.IdOrdine;
-                    DB.ListIncasso.Clear();
+                   
                      DB.SelectOrdine(o.IdOrdine);
                     return View(DB.ListIncasso);
                 }
@@ -241,6 +286,7 @@ namespace w16_1.Controllers
         //Edit
         public ActionResult EditCliente(int id)
         {
+            Session["IdClien"] = id;
             Clienti p = db.Clienti.Find(id);
             return View(p);
         }
@@ -249,7 +295,11 @@ namespace w16_1.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Session["Cliente"]=null
+                int id = (int)Session["IdClien"];
+                p.IdCliente = id;
                 db.Entry(p).State = EntityState.Modified;
+                Session["Modifica"] = p;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -264,6 +314,7 @@ namespace w16_1.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
 
     }
 }

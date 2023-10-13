@@ -14,6 +14,7 @@ namespace w16_1.Models
         public int Quantità { get; set; }
         public int PizzaScelta { get; set; }
         public int IdPizza { get; set; }
+        public int IdPizze { get; set; }
         public string Nome { get; set; }
         public string Foto { get; set; }
         public decimal? Prezzo { get; set; }

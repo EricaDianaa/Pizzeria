@@ -31,7 +31,11 @@
                                 <a href="/Admin/EditPizza/?Id=@p.IdPizza" class="btn btn-warning mx-auto">Modifica</a>
                                 <a href="/Admin/DeletePizza/?Id=@p.IdPizza" class="btn btn-danger mx-auto">Elimina</a>
                             }
-                            <a href="/Home/Dettagli/?Id=@p.IdPizza" class="btn btn-primary mx-auto">Dettagli</a>
+                            @if (User.IsInRole("User"))
+                            {
+                                <a href="/Home/Dettagli/?Id=@p.IdPizza" class="btn btn-primary mx-auto">Dettagli</a>
+                            }
+
                         </div>
                     </div>
                 </div>

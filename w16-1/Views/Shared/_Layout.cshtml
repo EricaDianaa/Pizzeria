@@ -47,14 +47,15 @@
                         <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Menù", "SelectProdotti", "Admin", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Riepilogo Ordine", "Ordini", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        @if (Session["Cliente"] == null)
+
+                        @if (Session["Cliente"] != null || Session["Modifica"] != null)
+                        {
+                            <li>@Html.ActionLink("Le tue credenziali", "SelectCliente", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        }else 
                         {
                             <li>@Html.ActionLink("Clienti", "CreateCliente", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                         }
-                        @if (Session["Cliente"] != null)
-                        {
-                            <li>@Html.ActionLink("Le tue credenziali", "SelectCliente", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                        }
+
                         <li>@Html.ActionLink("Carello", "cart", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "nav-link" })</li>
 

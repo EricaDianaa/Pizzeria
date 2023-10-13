@@ -16,10 +16,10 @@
         </div>
         foreach (Prodotto p in Model)
         {
-            <div class="card mb-3">
+            <div class="card bg-black text-white mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="~/Content/Img/@p.Foto" class="img-fluid rounded-start w-50" alt="...">
+                        <img src="~/Content/Img/@p.Foto" class="img-fluid rounded-start " alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -28,16 +28,18 @@
                             <p class="card-text"><strong>Tempo di consegna: </strong>  @p.TempoConsegna</p>
                             <p class="card-text">  <strong>Ingredienti : </strong> @p.Ingredienti  </p>
                             <p class="card-text">  <strong>Quantità : </strong> @p.Quantità  </p>
+                            <a href="/Home/CartRemove/?Id=@p.IdPizza" class="btn btn-danger" id="Elimina">Elimina</a>
                         </div>
                     </div>
                 </div>
             </div>
 
         }
-        <div class="bg-black border border-white text-center p-2">
-            <h3 class="text-white ">Totale carrello: @string.Format("{0:C}", @ViewBag.totale) </h3>
-            <a href="/Home/CreateOrdine" class="btn btn-primary">Concludi l'ordine</a>
-        </div>
+<div class="bg-black border border-white text-center p-2">
+    <h3 class="text-white ">Totale carrello: @string.Format("{0:C}", @ViewBag.totale) </h3>
+    <a href="/Home/CreateOrdine" class="btn btn-primary">Concludi l'ordine</a>
+    <a href="/Home/CartRemoveAll" class="btn btn-primary">Svuota il carello</a>
+</div>
     }
     @if (Session["Carello"] == null)
     {
@@ -50,3 +52,15 @@
 
 </div>
 
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Elimina").click(function () {
+                var valore = $(this).data("Id")
+
+        console.log("Val",valore)
+            })
+        })
+
+    </script>
+}
