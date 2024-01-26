@@ -1,6 +1,8 @@
 
 <h1 align="center">Pizzeria</h1>
+
 ![Pizzeria](https://github.com/itsroshan137/Horizontal-Swiper/assets/134380180/8125649c-e73a-402e-8653-7973e906abbe)
+
 ###
 
 <h2 align="center">Funzionalità</h2>
